@@ -1,4 +1,5 @@
 import { BrowserWindow, Menu, MenuItemConstructorOptions } from 'electron';
+
 import { getLocaleFilePath } from '../utils/file.utils';
 import { IWindow } from './window.interface';
 
@@ -35,6 +36,19 @@ class TodoWindow implements IWindow {
                 ]
             }
         ];
+
+        if (process.env.NODE_ENV === 'development') {
+            template.push({
+                label: 'Developer',
+                submenu: [
+                    {
+                        label: 'Toggle Developer Tools',
+                        accelerator: 'Ctrl+Shift+I',
+                        click: (item, focusedWindow) => focusedWindow.webContents.toggleDevTools()
+                    }
+                ]
+            });
+        }
 
         return Menu.buildFromTemplate(template);
     }

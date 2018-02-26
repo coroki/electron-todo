@@ -2,7 +2,9 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 const common = require("./webpack.renderer.common.config");
 
-module.exports = merge(common, {
+const mergeStrategy = merge.strategy({ entry: "prepend" });
+
+module.exports = mergeStrategy(common, {
 
     entry: Object.keys(common.entry).reduce((o, k) => {
         o[k] = ['react-hot-loader/patch'];

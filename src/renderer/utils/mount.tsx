@@ -7,7 +7,7 @@ export const mount = (Component: React.ComponentType, componentPath: string) => 
     const container = document.getElementById('root');
 
     const render = () => {
-        const element = process.env.NODE_ENV !== 'production'
+        const element = process.env.NODE_ENV === 'development'
             ? <AppContainer><Component /></AppContainer>
             : <Component />;
         ReactDOM.render(element, container);
