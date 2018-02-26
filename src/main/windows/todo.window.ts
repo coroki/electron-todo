@@ -1,27 +1,18 @@
-import { BrowserWindow, Menu, MenuItemConstructorOptions } from 'electron';
+import { Window } from './window';
 
-import { getLocaleFilePath } from '../utils/file.utils';
-import { IWindow } from './window.interface';
+export class TodoWindow extends Window {
 
-class TodoWindow implements IWindow {
-
-    private window: BrowserWindow | null = null;
-
-    public launch = () => {
-        this.window = new BrowserWindow({
+    constructor() {
+        super('/#todo', {
             title: 'Add Todo',
             width: 350,
             height: 175,
             resizable: false
         });
-        const url = getLocaleFilePath('/#todo');
-        this.window.loadURL(url);
-
-        this.window.setMenu(this.buildMenu(process.platform));
     }
 
-    private buildMenu = (platform: NodeJS.Platform): Menu => {
-        const template: MenuItemConstructorOptions[] = [
+    protected getMenuTemplate() {
+        return [
             {
                 label: 'File',
                 submenu: [
@@ -36,22 +27,5 @@ class TodoWindow implements IWindow {
                 ]
             }
         ];
-
-        if (process.env.NODE_ENV === 'development') {
-            template.push({
-                label: 'Developer',
-                submenu: [
-                    {
-                        label: 'Toggle Developer Tools',
-                        accelerator: 'Ctrl+Shift+I',
-                        click: (item, focusedWindow) => focusedWindow.webContents.toggleDevTools()
-                    }
-                ]
-            });
-        }
-
-        return Menu.buildFromTemplate(template);
     }
 }
-
-export const todoWindow = new TodoWindow();

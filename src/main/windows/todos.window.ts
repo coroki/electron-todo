@@ -1,33 +1,27 @@
-import { app, BrowserWindow, Menu, MenuItemConstructorOptions } from 'electron';
+import { app } from 'electron';
 
-import { getLocaleFilePath } from '../utils/file.utils';
-import { todoWindow } from './todo.window';
-import { IWindow } from './window.interface';
+import { TodoWindow } from './todo.window';
+import { Window } from './window';
 
-class TodosWindow implements IWindow {
+export class TodosWindow extends Window {
 
-    private window: BrowserWindow | null = null;
-
-    public launch = () => {
-        this.window = new BrowserWindow({
+    constructor() {
+        super('/#todos', {
             title: 'Todos'
         });
-        const url = getLocaleFilePath('/#todos');
-        this.window.loadURL(url);
 
-        this.window.setMenu(this.buildMenu(process.platform));
         this.window.on('closed', app.quit);
     }
 
-    private buildMenu = (platform: NodeJS.Platform): Menu => {
-        const template: MenuItemConstructorOptions[] = [
+    protected getMenuTemplate() {
+        return [
             {
                 label: 'File',
                 submenu: [
                     {
                         label: 'New Todo',
                         accelerator: 'CmdOrCtrl+N',
-                        click: todoWindow.launch
+                        click: () => new TodoWindow()
                     },
                     {
                         label: 'Quit',
@@ -37,22 +31,5 @@ class TodosWindow implements IWindow {
                 ]
             }
         ];
-
-        if (process.env.NODE_ENV === 'development') {
-            template.push({
-                label: 'Developer',
-                submenu: [
-                    {
-                        label: 'Toggle Developer Tools',
-                        accelerator: 'Ctrl+Shift+I',
-                        click: (item, focusedWindow) => focusedWindow.webContents.toggleDevTools()
-                    }
-                ]
-            });
-        }
-
-        return Menu.buildFromTemplate(template);
     }
 }
-
-export const todosWindow = new TodosWindow();

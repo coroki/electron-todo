@@ -1,4 +1,4 @@
 import { app } from 'electron';
-import { todosWindow } from './windows/todos.window';
+import { TodosWindow } from './windows/todos.window';
 
-app.on('ready', todosWindow.launch);
+app.on('ready', () => new TodosWindow());
