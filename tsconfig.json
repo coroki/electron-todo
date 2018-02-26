@@ -1,0 +1,19 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "module": "commonjs",
+        "jsx": "react",
+        "noUnusedLocals": true,
+        "noImplicitAny": true,
+        "removeComments": true,
+        "sourceMap": true,
+        "strict": true,
+        "pretty": true
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
