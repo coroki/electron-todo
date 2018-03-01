@@ -2,25 +2,32 @@ import { BrowserWindow, BrowserWindowConstructorOptions, Menu, MenuItemConstruct
 
 export abstract class Window {
 
-    protected window: BrowserWindow;
+    private browserWindow: BrowserWindow | null;
 
     constructor(url: string, options?: BrowserWindowConstructorOptions) {
-        this.window = new BrowserWindow(options);
+        this.browserWindow = new BrowserWindow(options);
 
         const prefix = process.env.NODE_ENV === 'development'
             ? 'http:localhost:8080/'
             : `file://${__dirname}/`;
 
-        this.window.loadURL(prefix + url);
+        this.browserWindow.loadURL(prefix + url);
 
         const menu = this.getMenu();
-        this.window.setMenu(menu);
+        this.browserWindow.setMenu(menu);
+
+        this.browserWindow.on('closed', () => this.browserWindow = null );
+    }
+
+    protected get window(): BrowserWindow {
+        return this.browserWindow as BrowserWindow;
     }
 
     protected abstract getMenuTemplate(): MenuItemConstructorOptions[];
 
     private getMenu() {
         const menuTemplate = this.getMenuTemplate();
+
         if (process.env.NODE_ENV === 'development') {
             menuTemplate.push({
                 label: 'Developer',
@@ -33,6 +40,7 @@ export abstract class Window {
                 ]
             });
         }
+
         const menu = Menu.buildFromTemplate(menuTemplate);
         return menu;
     }

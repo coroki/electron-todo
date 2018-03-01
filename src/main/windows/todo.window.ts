@@ -1,13 +1,19 @@
+import { BrowserWindow } from 'electron';
+
 import { Window } from './window';
 
 export class TodoWindow extends Window {
 
-    constructor() {
+    constructor(parent: BrowserWindow) {
         super('/#todo', {
             title: 'Add Todo',
+            modal: true,
+            maximizable: false,
+            minimizable: false,
+            movable: false,
             width: 350,
             height: 175,
-            resizable: false
+            parent
         });
     }
 

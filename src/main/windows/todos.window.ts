@@ -21,7 +21,7 @@ export class TodosWindow extends Window {
                     {
                         label: 'New Todo',
                         accelerator: 'CmdOrCtrl+N',
-                        click: () => new TodoWindow()
+                        click: () => new TodoWindow(this.window)
                     },
                     {
                         label: 'Quit',

@@ -22,19 +22,42 @@ module.exports = {
     target: 'electron-renderer',
 
     module: {
-        rules: [{
-            test: /\.tsx?$/,
-            include: [
-                PATH_SRC
-            ],
-            use: [{
-                loader: 'ts-loader'
-            }]
-        }]
+        rules: [
+            {
+                test: /\.tsx?$/,
+                include: [
+                    PATH_SRC
+                ],
+                use: [{
+                    loader: 'ts-loader'
+                }]
+            },
+            {
+                test: /\.less$/,
+                include: PATH_SRC,
+                use: [
+                    {
+                        loader: "style-loader"
+                    },
+                    {
+                        loader: "css-loader",
+                        options: {
+                            importLoaders: 1,
+                            localIdentName: "[name]__[local]--[hash:base64:5]",
+                            minimize: true,
+                            modules: true
+                        }
+                    },
+                    {
+                        loader: "less-loader"
+                    }
+                ]
+            },
+        ]
     },
 
     resolve: {
-        extensions: ['.js', '.json', '.ts', '.tsx']
+        extensions: ['.js', '.json', '.ts', '.tsx', '.less', '.css']
     },
 
     plugins: [

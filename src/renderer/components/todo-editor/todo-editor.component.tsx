@@ -2,6 +2,8 @@ import * as React from 'react';
 
 import { ITodoEditorState } from './todo-editor.state.interface';
 
+const styles = require('./todo-editor.less');
+
 export class TodoEditor extends React.Component<{}, ITodoEditorState> {
 
     constructor(props: {}) {
@@ -14,10 +16,12 @@ export class TodoEditor extends React.Component<{}, ITodoEditorState> {
     public render(): JSX.Element {
         const { text } = this.state;
         return (
-            <div>
-                <h1>Enter Todo:</h1>
-                <input type='text' value={text} onChange={this.onTextChange} />
-                <button onClick={this.onAdd}>Add</button>
+            <div className={styles.todo_editor}>
+                <h2>Enter Todo:</h2>
+                <div className={styles.form}>
+                    <input type='text' value={text} onChange={this.onTextChange} />
+                    <button onClick={this.onAdd}>Add</button>
+                </div>
             </div>
         );
     }
